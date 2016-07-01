@@ -1,10 +1,8 @@
-package com.example.darius.sharelocation;
+package com.example.darius.sharelocation.services;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import com.example.darius.sharelocation.Constants;
+import com.example.darius.sharelocation.models.Direction;
+import com.example.darius.sharelocation.ui.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

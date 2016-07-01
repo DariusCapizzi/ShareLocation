@@ -1,4 +1,4 @@
-package com.example.darius.sharelocation;
+package com.example.darius.sharelocation.models;
 
 /**
  * Created by Guest on 7/1/16.

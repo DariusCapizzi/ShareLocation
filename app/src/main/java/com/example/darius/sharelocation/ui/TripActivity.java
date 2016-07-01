@@ -1,4 +1,4 @@
-package com.example.darius.sharelocation;
+package com.example.darius.sharelocation.ui;
 
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -8,12 +8,14 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.darius.sharelocation.services.GoogleDirectionsService;
+import com.example.darius.sharelocation.R;
+import com.example.darius.sharelocation.models.Direction;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,7 +28,7 @@ public class TripActivity extends AppCompatActivity {
     @Bind(R.id.title) TextView mTitle;
     @Bind(R.id.tripInfo) ListView mTripInfo;
     public List<Direction> mDirections = new ArrayList<>();
-    private boolean mIsMatch = true;
+    private boolean mIsMatch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class TripActivity extends AppCompatActivity {
 //            }
         } else {
 //            Toast.makeText(TripActivity.this, "FILLE THE FIELDS", Toast.LENGTH_LONG).show();
-            getRoute("45.467166,-122.610763", "45.520705,-122.677408");
+            getRoute("disneyland", "legoland");
         }
     }
 

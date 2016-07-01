@@ -10,21 +10,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TripActivity" />
+        <activity android:name=".ui.TripActivity" />
 
         <service
-            android:name=".GoogleDirectionsService"
+            android:name=".services.GoogleDirectionsService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".FriendsActivity"></activity>
+        <activity android:name=".ui.FriendsActivity"></activity>
     </application>
 
 </manifest>
