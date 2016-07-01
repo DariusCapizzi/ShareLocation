@@ -58,7 +58,6 @@
         android:hint="arriving at ..."
         android:layout_centerHorizontal="true" />
 
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +67,5 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorAccent"
         android:textColor="@color/colorTextIcons" />
-
-
 
 </RelativeLayout>
