@@ -3,6 +3,7 @@ package com.example.darius.sharelocation;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -25,7 +26,7 @@ public class TripActivity extends AppCompatActivity {
     @Bind(R.id.title) TextView mTitle;
     @Bind(R.id.tripInfo) ListView mTripInfo;
     public List<Direction> mDirections = new ArrayList<>();
-
+    private boolean mIsMatch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +39,20 @@ public class TripActivity extends AppCompatActivity {
         mTitle.setTypeface(Amatic);
 
         Bundle extras = getIntent().getExtras();
-        String departure;
-        String pattern = "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$\n";
-        boolean isMatch = Pattern.matches(pattern, extras.getString("departure"));
-        if (extras != null) {
-            if(isMatch){
-                departure = extras.getString("departure");
-                getRoute("45.467166,-122.610763", "45.520705,-122.677408");
-            } else {
-                getRoute("45.467166,-122.610763", "45.520705,-122.677408");
-                Toast.makeText(TripActivity.this, "not a literal coordinate, so we will use", Toast.LENGTH_LONG).show();
-            }
+
+//        String pattern = "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$\n";
+//        mIsMatch = Pattern.matches(pattern, extras.getString("departure"));
+        if (extras != null && mIsMatch) {
+                getRoute(extras.getString("departure"), extras.getString("arrival"));
+
+//            else {
+//                getRoute("45.467166,-122.610763", "45.520705,-122.677408");
+//                Toast.makeText(TripActivity.this, "no no no, so we will use", Toast.LENGTH_LONG).show();
+//            }
+        } else {
+//            Toast.makeText(TripActivity.this, "FILLE THE FIELDS", Toast.LENGTH_LONG).show();
+            getRoute("45.467166,-122.610763", "45.520705,-122.677408");
         }
-
-
-
-        getRoute("45.467166,-122.610763", "45.520705,-122.677408");
     }
 
     private void getRoute(String origin, String destination) {
@@ -75,7 +74,8 @@ public class TripActivity extends AppCompatActivity {
                         ArrayList<String> outDirections = new ArrayList<String>();
 
                         for (Direction direction : mDirections) {
-                            outDirections.add(direction.getDistance() + " " +  direction.getDuration() + " " + direction.getHtmlInstruction());
+
+                            outDirections.add(direction.getDistance() + ",  " + direction.getDuration() + ",  "  + Html.fromHtml("<br>") + Html.fromHtml(direction.getHtmlInstruction()));
 //                            Log.d(TAG, "distance: " + direction.getDistance());
 //                            Log.d(TAG, "duration: " + direction.getDuration());
 //                            Log.d(TAG, "html instruction : " + direction.getHtmlInstruction());

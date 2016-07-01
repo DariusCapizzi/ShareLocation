@@ -9,17 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String departure = mDepartureEditText.getText().toString();
-                Toast.makeText(MainActivity.this, departure, Toast.LENGTH_LONG).show();
+                Log.d("log", "im a log");
                 String arrival = mArrivalEditText.getText().toString();
-                Toast.makeText(MainActivity.this, arrival, Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, arrival, Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(MainActivity.this, TripActivity.class);
                 intent.putExtra("departure", departure);

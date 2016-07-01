@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
 
     tools:context="com.example.darius.sharelocation.MainActivity">
 
@@ -33,21 +29,21 @@
         android:layout_above="@+id/arrivalEditText"
 
         android:id="@+id/departureEditText"
-        android:background="@color/colorTextIcons"
+        android:background="@color/colorPrimary"
         android:layout_marginBottom="10dp"
         android:padding="5dp"
-        android:hint="Enter Zip Code"
+        android:hint="departing from ...."
         android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/arrivalEditText"
-        android:background="@color/colorTextIcons"
+        android:background="@color/colorPrimary"
         android:layout_above="@+id/findTripButton"
         android:layout_marginBottom="10dp"
         android:padding="5dp"
-        android:hint="Enter Zip Code"
+        android:hint="arriving at ..."
         android:layout_centerHorizontal="true" />
 
 
