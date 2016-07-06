@@ -12,6 +12,8 @@
         android:src="@drawable/background"
         android:scaleType="centerCrop" />
 
+
+
     <TextView
         android:id="@+id/title"
         android:layout_centerHorizontal="true"
@@ -23,12 +25,11 @@
         android:text="Your Trip: "
         />
 
-    <ListView
-        android:id="@+id/tripInfo"
+    <android.support.v7.widget.RecyclerView
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:textColor="@color/colorTextIcons"
-        android:textSize="30sp" />
+        android:id="@+id/recyclerView"/>
+
 </RelativeLayout>

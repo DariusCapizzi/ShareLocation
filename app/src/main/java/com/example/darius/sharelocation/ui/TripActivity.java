@@ -2,11 +2,15 @@ package com.example.darius.sharelocation.ui;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.darius.sharelocation.adapters.DirectionListAdapter;
 import com.example.darius.sharelocation.services.GoogleDirectionsService;
 import com.example.darius.sharelocation.R;
 import com.example.darius.sharelocation.models.Direction;
@@ -21,7 +25,12 @@ import okhttp3.Response;
 public class TripActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     @Bind(R.id.title) TextView mTitle;
-    @Bind(R.id.tripInfo) ListView mTripInfo;
+
+
+    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    private DirectionListAdapter mAdapter;
+
+//    @Bind(R.id.tripInfo) ListView mTripInfo;
     public List<Direction> mDirections = new ArrayList<>();
     private boolean mIsMatch = false;
     @Override
@@ -33,7 +42,7 @@ public class TripActivity extends AppCompatActivity {
         mTitle.setTypeface(Amatic);
         Bundle extras = getIntent().getExtras();
         if (extras != null && mIsMatch) {
-                getRoute(extras.getString("departure"), extras.getString("arrival"));
+            getRoute(extras.getString("departure"), extras.getString("arrival"));
         } else {
             getRoute("disneyland", "legoland");
         }
@@ -56,8 +65,12 @@ public class TripActivity extends AppCompatActivity {
                         for (Direction direction : mDirections) {
                             outDirections.add(direction.getDistance() + ",  " + direction.getDuration() + ",  "  + Html.fromHtml("<br>") + Html.fromHtml(direction.getHtmlInstruction()));
                         }
-                        ArrayAdapter adapter = new ArrayAdapter(TripActivity.this, android.R.layout.simple_list_item_1, outDirections);
-                        mTripInfo.setAdapter(adapter);
+                        mAdapter = new DirectionListAdapter(getApplicationContext(), outDirections);
+                        RecyclerView.LayoutManager layoutManager =
+                                new LinearLayoutManager(TripActivity.this);
+                        mRecyclerView.setLayoutManager(layoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+                        mRecyclerView.setHasFixedSize(true);
                     }
                 });
             }

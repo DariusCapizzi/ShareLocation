@@ -5,9 +5,8 @@ package com.example.darius.sharelocation;
  */
 public class Constants {
     public static final String GOOGLE_BASE_URL = "https://maps.googleapis.com/maps/api/directions/json";
-    public static final String ORIGIN = "45.467166,-122.610763";
+    public static final String ALTERNATIVESP = "alternatives";
     public static final String ORIGINP = "origin";
-    public static final String DESTINATION = "45.520705,-122.677408";
     public static final String DESTINATIONP = "destination";
     public static final String KEY = BuildConfig.GOOGLE_DIRECTIONS_KEY;
     public static final String KEYP = "key";

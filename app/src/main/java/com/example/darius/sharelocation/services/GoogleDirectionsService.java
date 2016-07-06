@@ -1,4 +1,6 @@
 package com.example.darius.sharelocation.services;
+import android.util.Log;
+
 import com.example.darius.sharelocation.Constants;
 import com.example.darius.sharelocation.models.Direction;
 import com.example.darius.sharelocation.ui.MainActivity;
@@ -20,6 +22,7 @@ public class GoogleDirectionsService{
                 .build();
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.GOOGLE_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter(Constants.ORIGINP, origin)
+                .addQueryParameter(Constants.ALTERNATIVESP, String.valueOf(true))
                 .addQueryParameter(Constants.DESTINATIONP, destination)
                 .addQueryParameter(Constants.KEYP, Constants.KEY);
         String url = urlBuilder.build().toString();
@@ -34,14 +37,23 @@ public class GoogleDirectionsService{
         try {
             String jsonData = response.body().string();
             if (response.isSuccessful()) {
-                JSONObject yelpJSON = new JSONObject(jsonData);
-                JSONArray placesJSON = yelpJSON.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps");
-                for (int i = 0; i < placesJSON.length(); i++) {
-                    JSONObject directionJSON = placesJSON.getJSONObject(i);
+                JSONObject initialJSON = new JSONObject(jsonData);
+
+                //TODO for each route
+
+                String startAddress = initialJSON.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getString("start_address");
+                String endAddress = initialJSON.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getString("end_address");
+//                Log.d(TAG, "processResults:"+ initialJSON.getJSONArray("routes").length());
+                JSONArray stepsJSON = initialJSON.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONArray("steps");
+
+
+
+                for (int i = 0; i < stepsJSON.length(); i++) {
+                    JSONObject directionJSON = stepsJSON.getJSONObject(i);
                     String distance = directionJSON.getJSONObject("distance").getString("text");
                     String duration = directionJSON.getJSONObject("duration").getString("text");
                     String htmlInstruction = directionJSON.getString("html_instructions");
-                    Direction direction = new Direction(distance, duration, htmlInstruction);
+                    Direction direction = new Direction(startAddress, endAddress, distance, duration, htmlInstruction);
                     directions.add(direction);
                 }
             }
