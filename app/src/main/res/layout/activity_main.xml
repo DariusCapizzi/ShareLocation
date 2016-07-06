@@ -13,6 +13,12 @@
         android:src="@drawable/background"
         android:scaleType="centerCrop" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/placeHolder"></FrameLayout>
+
+
     <Button
         android:layout_width="80dp"
         android:layout_height="40dp"
@@ -67,5 +73,6 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorAccent"
         android:textColor="@color/colorTextIcons" />
+
 
 </RelativeLayout>

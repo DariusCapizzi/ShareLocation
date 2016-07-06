@@ -1,4 +1,6 @@
 package com.example.darius.sharelocation.ui;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTitle.setTypeface(Amatic);
         mSeeFriendsButton.setOnClickListener(this);
         mFindTripButton.setOnClickListener(this);
+
+
     }
     @Override
     public void onClick(View v) {
@@ -38,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if(v == mSeeFriendsButton) {
             Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
+            FriendsFragment fragment = new FriendsFragment();
+            FragmentManager fragmentManager =  getFragmentManager();
+            FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.placeHolder, fragment);
+            fragmentTransaction.commit();
             startActivity(intent);
         }
     }
