@@ -9,6 +9,6 @@ public class Constants {
     public static final String ORIGINP = "origin";
     public static final String DESTINATION = "45.520705,-122.677408";
     public static final String DESTINATIONP = "destination";
-    public static final String KEY = "AIzaSyDp7_NmzoUMxfed5Q7pUQB7F3sZ746qcg0";
+    public static final String KEY = BuildConfig.GOOGLE_DIRECTIONS_KEY;
     public static final String KEYP = "key";
 }

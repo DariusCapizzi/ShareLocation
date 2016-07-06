@@ -23,7 +23,7 @@ public class TripActivity extends AppCompatActivity {
     @Bind(R.id.title) TextView mTitle;
     @Bind(R.id.tripInfo) ListView mTripInfo;
     public List<Direction> mDirections = new ArrayList<>();
-    private boolean mIsMatch = true;
+    private boolean mIsMatch = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
