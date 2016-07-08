@@ -12,4 +12,5 @@
         android:textColor="@color/colorTextIcons"
         android:textSize="20sp"
         android:layout_margin="10dp"/>
+
 </LinearLayout>

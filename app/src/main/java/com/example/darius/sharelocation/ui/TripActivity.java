@@ -1,4 +1,5 @@
 package com.example.darius.sharelocation.ui;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +31,6 @@ public class TripActivity extends AppCompatActivity {
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private DirectionListAdapter mAdapter;
 
-//    @Bind(R.id.tripInfo) ListView mTripInfo;
     public List<Direction> mDirections = new ArrayList<>();
     private boolean mIsMatch = false;
     @Override
@@ -40,11 +40,15 @@ public class TripActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Typeface Amatic = Typeface.createFromAsset(getAssets(), "fonts/Amatic.ttf");
         mTitle.setTypeface(Amatic);
+
         Bundle extras = getIntent().getExtras();
-        if (extras != null && mIsMatch) {
-            getRoute(extras.getString("departure"), extras.getString("arrival"));
-        } else {
-            getRoute("disneyland", "legoland");
+        Log.d(TAG, "onCreate: " + Direction.directionArray.size());
+        if (Direction.directionArray.size() == 0){
+            if (extras != null && mIsMatch) {
+                getRoute(extras.getString("departure"), extras.getString("arrival"));
+            } else {
+                getRoute("disneyland", "legoland");
+            }
         }
     }
     private void getRoute(String origin, String destination) {
@@ -61,9 +65,9 @@ public class TripActivity extends AppCompatActivity {
                 TripActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ArrayList<String> outDirections = new ArrayList<String>();
+                        ArrayList<Direction> outDirections = new ArrayList<Direction>();
                         for (Direction direction : mDirections) {
-                            outDirections.add(direction.getDistance() + ",  " + direction.getDuration() + ",  "  + Html.fromHtml("<br>") + Html.fromHtml(direction.getHtmlInstruction()));
+                            outDirections.add(direction);
                         }
                         mAdapter = new DirectionListAdapter(getApplicationContext(), outDirections);
                         RecyclerView.LayoutManager layoutManager =
@@ -75,5 +79,18 @@ public class TripActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MainActivity.REQUEST_FRIENDS){
+            if(resultCode == RESULT_OK){
+                int position = data.getIntExtra(MainActivity.EXTRA_LIST_POSITION, 0);
+                Direction.directionArray.get(position).setFriend(data.getStringExtra(MainActivity.EXTRA_FRIEND));
+                mAdapter.notifyItemChanged(position);
+                Log.d(TAG, "trip activity: "+  Direction.directionArray.get(position).getFriend());
+            }
+        }
     }
 }
