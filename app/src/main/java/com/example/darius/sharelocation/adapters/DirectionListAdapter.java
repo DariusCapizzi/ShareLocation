@@ -65,7 +65,7 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
         public void bindDirection(Direction direction) {
             mDirectionView.setText(direction.getDistance() + ",  " + direction.getDuration() + ",  "  + Html.fromHtml("<br>") + Html.fromHtml(direction.getHtmlInstruction()));
-            Log.d(TAG, "bindDirection: "+ direction.getFriend());
+//            Log.d(TAG, "bindDirection: "+ direction.getFriend());
             if (direction.getFriend() != null){
                 mDirectionView.setText(direction.getFriend());
             }

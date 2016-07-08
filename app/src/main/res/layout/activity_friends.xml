@@ -12,15 +12,7 @@
         android:src="@drawable/background"
         android:scaleType="centerCrop" />
 
-    <QuickContactBadge
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/quickbadge"
-        android:scaleType="centerCrop"
-        android:bottomLeftRadius="10dp"
-        android:bottomRightRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp"/>
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -37,12 +29,11 @@
         android:textSize="40sp"
         android:text="your budds:" />
 
-    <ListView
-        android:layout_width="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:id="@+id/friends">
-
-    </ListView>
+        android:id="@+id/friendsRecyclerView"/>
 
 </RelativeLayout>
