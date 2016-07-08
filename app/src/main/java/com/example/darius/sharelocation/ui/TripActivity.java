@@ -42,15 +42,26 @@ public class TripActivity extends AppCompatActivity {
         mTitle.setTypeface(Amatic);
 
         Bundle extras = getIntent().getExtras();
-        Log.d(TAG, "onCreate: " + Direction.directionArray.size());
-        if (Direction.directionArray.size() == 0){
-            if (extras != null && mIsMatch) {
-                getRoute(extras.getString("departure"), extras.getString("arrival"));
-            } else {
-                getRoute("disneyland", "legoland");
-            }
+        Log.d(TAG, "mDirections: " + mDirections.size());
+        Log.d(TAG, "directionArray: " + Direction.directionArray.size());
+
+
+        if (extras != null && mIsMatch) {
+            getRoute(extras.getString("departure"), extras.getString("arrival"));
+        } else {
+            getRoute("disneyland", "legoland");
         }
+
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Log.d(TAG, "On Start mDirections: " + mDirections.size());
+        Log.d(TAG, "On Start directionArray: " + Direction.directionArray.size());
+    }
+
     private void getRoute(String origin, String destination) {
         final GoogleDirectionsService googleDirectionService = new GoogleDirectionsService();
         googleDirectionService.findTrip(origin, destination, new Callback() {
@@ -88,9 +99,18 @@ public class TripActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 int position = data.getIntExtra(MainActivity.EXTRA_LIST_POSITION, 0);
                 Direction.directionArray.get(position).setFriend(data.getStringExtra(MainActivity.EXTRA_FRIEND));
+                mDirections = Direction.directionArray;
                 mAdapter.notifyItemChanged(position);
-                Log.d(TAG, "trip activity: "+  Direction.directionArray.get(position).getFriend());
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        Direction.directionArray.clear();
+        Log.d(TAG, "On Destroy mDirections: " + mDirections.size());
+        Log.d(TAG, "On Destroy directionArray: " + Direction.directionArray.size());
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import butterknife.ButterKnife;
 public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdapter.DirectionViewHolder>{
     private ArrayList<Direction> mDirections = new ArrayList<Direction>();
     private Context mContext;
+    public static final String TAG = MainActivity.class.getSimpleName();
+
 
     public DirectionListAdapter(Context context, ArrayList<Direction> directions) {
         mContext = context;
@@ -62,6 +65,7 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
         public void bindDirection(Direction direction) {
             mDirectionView.setText(direction.getDistance() + ",  " + direction.getDuration() + ",  "  + Html.fromHtml("<br>") + Html.fromHtml(direction.getHtmlInstruction()));
+            Log.d(TAG, "bindDirection: "+ direction.getFriend());
             if (direction.getFriend() != null){
                 mDirectionView.setText(direction.getFriend());
             }

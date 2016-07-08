@@ -1,4 +1,6 @@
 package com.example.darius.sharelocation.ui;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,12 @@ public class FriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends);
         ButterKnife.bind(this);
         Typeface Amatic = Typeface.createFromAsset(getAssets(), "fonts/Amatic.ttf");
+
+        FriendsFragment fragment = new FriendsFragment();
+        FragmentManager fragmentManager =  getFragmentManager();
+        FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.placeHolder, fragment);
+        fragmentTransaction.commit();
 
 
         Intent intent = getIntent();

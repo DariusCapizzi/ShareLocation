@@ -44,11 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("arrival", arrival);
             startActivity(intent);
         } else if(v == mSeeFriendsButton) {
-            FriendsFragment fragment = new FriendsFragment();
-            FragmentManager fragmentManager =  getFragmentManager();
-            FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.placeHolder, fragment);
-            fragmentTransaction.commit();
+
 
 
             Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
