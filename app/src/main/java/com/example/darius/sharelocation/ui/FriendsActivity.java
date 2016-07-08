@@ -41,8 +41,6 @@ public class FriendsActivity extends AppCompatActivity {
         if (intent.getParcelableExtra(MainActivity.EXTRA_DIRECTION) != null){
             Direction direction =  intent.getParcelableExtra(MainActivity.EXTRA_DIRECTION);
             mTitle.setText(Html.fromHtml(direction.getHtmlInstruction()));
-        } else {
-            Log.d(TAG, "FAILLLLLURRREEE" );
         }
 
         final int listPosition = intent.getIntExtra(MainActivity.EXTRA_LIST_POSITION, 0);

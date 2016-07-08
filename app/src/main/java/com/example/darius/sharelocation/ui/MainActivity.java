@@ -1,6 +1,4 @@
 package com.example.darius.sharelocation.ui;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -10,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.example.darius.sharelocation.R;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == REQUEST_FRIENDS){
             if(resultCode == RESULT_OK){
 
-                Log.d(TAG, "onActivityResult: "+ data.getStringExtra(EXTRA_FRIEND)  );
+//                Log.d(TAG, "onActivityResult: "+ data.getStringExtra(EXTRA_FRIEND)  );
             }
         }
     }
