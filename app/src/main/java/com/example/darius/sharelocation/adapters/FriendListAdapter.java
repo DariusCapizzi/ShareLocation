@@ -1,12 +1,15 @@
 package com.example.darius.sharelocation.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
@@ -26,11 +29,13 @@ import butterknife.ButterKnife;
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.FriendViewHolder>{
     private Context mContext;
     private ArrayList<Friend> mFriends;
+    private int mTripPosition;
     public static final String TAG = FriendsActivity.class.getSimpleName();
 
-    public FriendListAdapter(Context context, ArrayList<Friend> friends) {
+    public FriendListAdapter(Context context, ArrayList<Friend> friends, int tripPosition) {
         mContext = context;
         mFriends = friends;
+        mTripPosition = tripPosition;
     }
 
     @Override
@@ -63,13 +68,23 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         }
 
         public void bindFriend(Friend friend) {
-            mFriendView.setText(friend.getFriendName());
+            mFriendView.setText(friend.getFriendName() + "  " + friend.getNumber());
             mBadge.setImageBitmap(friend.getThumb());
-//            Log.d(TAG, "bindDirection: "+ direction.getFriend());
         }
 
         @Override
         public void onClick(View view) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(MainActivity.EXTRA_FRIEND, mFriends.toArray(new Friend[mFriends.size()])[getAdapterPosition()]);
+                resultIntent.putExtra(MainActivity.EXTRA_LIST_POSITION, mTripPosition);
+                ((Activity) mContext).setResult(((Activity) mContext).RESULT_OK, resultIntent);
+                ((Activity) mContext).finish();
+
+//            Intent intent = new Intent(mContext, FriendsActivity.class);
+//            intent.putExtra(MainActivity.EXTRA_DIRECTION, mDirections.toArray(new Direction[0])[getAdapterPosition()] );
+//            intent.putExtra(MainActivity.EXTRA_LIST_POSITION, getAdapterPosition());
+//
+//            ((Activity) mContext).startActivityForResult(intent, MainActivity.REQUEST_FRIENDS);
 
         }
     }

@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.darius.sharelocation.R;
 import com.example.darius.sharelocation.models.Direction;
@@ -36,8 +38,7 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
     @Override
     public DirectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.direction_list_item, parent, false);
-        DirectionViewHolder viewHolder = new DirectionViewHolder(view);
-        return viewHolder;
+        return new DirectionViewHolder(view);
     }
 
     @Override
@@ -53,6 +54,8 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
     public class DirectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.tripInfo) TextView mDirectionView;
+        @Bind(R.id.friendInfo) TextView mFriendView;
+        @Bind(R.id.quickbadge) QuickContactBadge mBadge;
 
         private Context mContext;
 
@@ -66,8 +69,25 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
         public void bindDirection(Direction direction) {
             mDirectionView.setText(direction.getDistance() + ",  " + direction.getDuration() + ",  "  + Html.fromHtml("<br>") + Html.fromHtml(direction.getHtmlInstruction()));
 //            Log.d(TAG, "bindDirection: "+ direction.getFriend());
-            if (direction.getFriend() != null){
-                mDirectionView.setText(direction.getFriend());
+
+            // TODO if
+            if (direction.getFriendArray().size() > 0 ){
+
+                for (int i = 0 ; i< direction.getFriendArray().size(); i++) {
+//                    Log.d(TAG, "bindDirection: "+direction.getFriendArray().get(i).getDirectionArray().contains(direction));
+//                    if (direction.getFriendArray().get(i).getDirectionArray().contains(direction)){
+
+                        mFriendView.setText(direction.getFriendArray().get(i).getFriendName());
+                        mBadge.setImageBitmap(direction.getFriendArray().get(i).getThumb());
+//                    } else {
+//                        mFriendView.setText("");
+//                    }
+
+                }
+
+            }else {
+                mFriendView.setText("");
+                mBadge.setImageResource(0);
             }
         }
 
@@ -75,7 +95,7 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(mContext, FriendsActivity.class);
-            intent.putExtra(MainActivity.EXTRA_DIRECTION, mDirections.toArray(new Direction[0])[getAdapterPosition()] );
+            intent.putExtra(MainActivity.EXTRA_DIRECTION, mDirections.toArray(new Direction[mDirections.size()])[getAdapterPosition()] );
             intent.putExtra(MainActivity.EXTRA_LIST_POSITION, getAdapterPosition());
 
             ((Activity) mContext).startActivityForResult(intent, MainActivity.REQUEST_FRIENDS);

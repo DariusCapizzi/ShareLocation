@@ -33,6 +33,7 @@ public class FriendsActivity extends AppCompatActivity {
     @Bind(R.id.title) TextView mTitle;
     @Bind(R.id.friendsRecyclerView) RecyclerView mFriendsRecyclerView;
     private FriendListAdapter mAdapter;
+    private Direction inDirection;
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private String[] names = new String[] {  "Abbott", "Acevedo", "Acosta", "Adams", "Adkins", "Aguilar", "Aguirre", "Albert", "Alexander", "Alford", "Allen", "Allison", "Alston", "Alvarado", "Alvarez", "Anderson", "Andrews", "Anthony", "Armstrong", "Arnold", "Ashley", "Atkins", "Atkinson", "Austin", "Avery", "Avila", "Ayala", "Ayers", "Bailey", "Baird", "Baker", "Baldwin", "Ball", "Ballard", "Banks", "Barber", "Barker", "Barlow", "Barnes", "Barnett", "Barr", "Barrera", "Barrett", "Barron", "Barry", "Bartlett", "Barton", "Bass", "Bates", "Battle", "Bauer", "Baxter", "Beach", "Bean", "Beard", "Beasley", "Beck", "Becker", "Bell", "Bender", "Benjamin", "Bennett", "Benson", "Bentley", "Benton", "Berg", "Berger", "Bernard", "Berry", "Best", "Bird", "Bishop", "Black", "Blackburn", "Blackwell", "Blair", "Blake", "Blanchard", "Blankenship", "Blevins", "Bolton", "Bond", "Bonner", "Booker", "Boone", "Booth", "Bowen", "Bowers", "Bowman", "Boyd", "Boyer", "Boyle", "Bradford", "Bradley", "Bradshaw", "Brady", "Branch", "Bray", "Brennan", };
@@ -44,7 +45,7 @@ public class FriendsActivity extends AppCompatActivity {
 
     private ArrayList<Bitmap> makeContact(){
         UserContactsService userContactsService = new UserContactsService();
-        Log.d(TAG, "makeContact: "+ userContactsService.getContactList(this).size());
+//        Log.d(TAG, "makeContact: "+ userContactsService.getContactList(this).size());
         ArrayList<Bitmap> thumbs = new ArrayList<>();
 
 
@@ -58,6 +59,8 @@ public class FriendsActivity extends AppCompatActivity {
                     userContactsService.getContactList(this).get(i).get("NAME"),
                     userContactsService.getContactList(this).get(i).get("NUMBER")
                     );
+
+
         }
 
 //        mBadge.setImageBitmap(thumbs.get(0));
@@ -76,6 +79,12 @@ public class FriendsActivity extends AppCompatActivity {
 //        FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
 //        fragmentTransaction.add(R.id.placeHolder, fragment);
 //        fragmentTransaction.commit();
+        Intent intent = getIntent();
+        if (intent.getParcelableExtra(MainActivity.EXTRA_DIRECTION) != null){
+
+            inDirection = intent.getParcelableExtra(MainActivity.EXTRA_DIRECTION);
+            mTitle.setText(Html.fromHtml(inDirection.getHtmlInstruction()));
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && this.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
@@ -83,20 +92,12 @@ public class FriendsActivity extends AppCompatActivity {
             makeContact();
         }
 
-
-        Intent intent = getIntent();
-
-        if (intent.getParcelableExtra(MainActivity.EXTRA_DIRECTION) != null){
-            Direction direction =  intent.getParcelableExtra(MainActivity.EXTRA_DIRECTION);
-            mTitle.setText(Html.fromHtml(direction.getHtmlInstruction()));
-        }
-
         final int listPosition = intent.getIntExtra(MainActivity.EXTRA_LIST_POSITION, 0);
 
         mTitle.setTypeface(Amatic);
 //        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, Friend.friendArrayList);
 //        mListView.setAdapter(adapter);
-        mAdapter = new FriendListAdapter(getApplicationContext(), Friend.friendArrayList);
+        mAdapter = new FriendListAdapter(getApplicationContext(), Friend.friendArrayList, listPosition);
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(FriendsActivity.this);
         mFriendsRecyclerView.setLayoutManager(layoutManager);

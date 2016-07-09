@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.darius.sharelocation.adapters.DirectionListAdapter;
+import com.example.darius.sharelocation.models.Friend;
 import com.example.darius.sharelocation.services.GoogleDirectionsService;
 import com.example.darius.sharelocation.R;
 import com.example.darius.sharelocation.models.Direction;
@@ -24,7 +25,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 public class TripActivity extends AppCompatActivity {
-    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = TripActivity.class.getSimpleName();
     @Bind(R.id.title) TextView mTitle;
 
 
@@ -42,8 +43,8 @@ public class TripActivity extends AppCompatActivity {
         mTitle.setTypeface(Amatic);
 
         Bundle extras = getIntent().getExtras();
-        Log.d(TAG, "mDirections: " + mDirections.size());
-        Log.d(TAG, "directionArray: " + Direction.directionArray.size());
+//        Log.d(TAG, "mDirections: " + mDirections.size());
+//        Log.d(TAG, "directionArray: " + Direction.directionArray.size());
 
 
         if (extras != null && mIsMatch) {
@@ -57,9 +58,9 @@ public class TripActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        Log.d(TAG, "On Start mDirections: " + mDirections.size());
-        Log.d(TAG, "On Start directionArray: " + Direction.directionArray.size());
+//
+//        Log.d(TAG, "On Start mDirections: " + mDirections.size());
+//        Log.d(TAG, "On Start directionArray: " + Direction.directionArray.size());
     }
 
     private void getRoute(String origin, String destination) {
@@ -98,7 +99,9 @@ public class TripActivity extends AppCompatActivity {
         if (requestCode == MainActivity.REQUEST_FRIENDS){
             if(resultCode == RESULT_OK){
                 int position = data.getIntExtra(MainActivity.EXTRA_LIST_POSITION, 0);
-                Direction.directionArray.get(position).setFriend(data.getStringExtra(MainActivity.EXTRA_FRIEND));
+                Friend oldFriend = data.getParcelableExtra(MainActivity.EXTRA_FRIEND);
+                oldFriend.addDirectionArray(Direction.directionArray.get(position));
+                Direction.directionArray.get(position).addFriend(oldFriend);
                 mDirections = Direction.directionArray;
                 mAdapter.notifyItemChanged(position);
             }
@@ -110,7 +113,7 @@ public class TripActivity extends AppCompatActivity {
 
         super.onDestroy();
         Direction.directionArray.clear();
-        Log.d(TAG, "On Destroy mDirections: " + mDirections.size());
-        Log.d(TAG, "On Destroy directionArray: " + Direction.directionArray.size());
+//        Log.d(TAG, "On Destroy mDirections: " + mDirections.size());
+//        Log.d(TAG, "On Destroy directionArray: " + Direction.directionArray.size());
     }
 }

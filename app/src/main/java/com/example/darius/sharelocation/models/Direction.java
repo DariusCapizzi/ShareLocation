@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Direction implements Parcelable {
     public static ArrayList<Direction> directionArray = new ArrayList<Direction>();
 
-    private String mFriend;
+    private ArrayList<Friend> mFriendArray = new ArrayList<>();
     private String mStartAddress;
     private String mEndAddress;
     private String mDistance;
@@ -59,13 +59,12 @@ public class Direction implements Parcelable {
     public String getEndAddress() {
         return mEndAddress;
     }
-    public String getFriend() {
-        return mFriend;
+    public ArrayList<Friend> getFriendArray() {
+        return mFriendArray;
     }
 
-
-    public void setFriend(String friend){
-        mFriend = friend;
+    public void addFriend(Friend friend){
+        mFriendArray.add(friend);
     }
 
     @Override

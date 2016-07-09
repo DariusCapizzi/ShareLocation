@@ -44,7 +44,7 @@ public class UserContactsService {
 
                 contactList.add(contactMap);
 //                numbers.add("+" + _number);
-                Log.d(TAG, _number + " " + _name + " " + _thumb);
+//                Log.d(TAG, _number + " " + _name + " " + _thumb);
             }
             phones.close();
 
