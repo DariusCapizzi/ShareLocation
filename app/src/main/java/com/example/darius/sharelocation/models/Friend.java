@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Friend implements Parcelable{
     public static ArrayList<Friend> friendArrayList = new ArrayList<>();
-    private ArrayList<Direction> mDirectionArray = new ArrayList<>();
+    private ArrayList<Route> mRouteArray = new ArrayList<>();
 
 
     private Bitmap mThumb;
@@ -79,11 +79,11 @@ public class Friend implements Parcelable{
         parcel.writeString(mNumber);
     }
 
-    public ArrayList<Direction> getDirectionArray() {
-        return mDirectionArray;
+    public ArrayList<Route> getDirectionArray() {
+        return mRouteArray;
     }
 
-    public void addDirectionArray(Direction direction) {
-        this.mDirectionArray.add(direction);
+    public void addDirectionArray(Route route) {
+        this.mRouteArray.add(route);
     }
 }

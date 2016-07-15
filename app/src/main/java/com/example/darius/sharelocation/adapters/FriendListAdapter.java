@@ -81,7 +81,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
                 ((Activity) mContext).finish();
 
 //            Intent intent = new Intent(mContext, FriendsActivity.class);
-//            intent.putExtra(MainActivity.EXTRA_DIRECTION, mDirections.toArray(new Direction[0])[getAdapterPosition()] );
+//            intent.putExtra(MainActivity.EXTRA_DIRECTION, mRoutes.toArray(new Route[0])[getAdapterPosition()] );
 //            intent.putExtra(MainActivity.EXTRA_LIST_POSITION, getAdapterPosition());
 //
 //            ((Activity) mContext).startActivityForResult(intent, MainActivity.REQUEST_FRIENDS);

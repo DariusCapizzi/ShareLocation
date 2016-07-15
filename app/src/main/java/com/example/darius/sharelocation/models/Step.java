@@ -1,17 +1,15 @@
 package com.example.darius.sharelocation.models;
 
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 
 /**
  * Created by Guest on 7/15/16.
  */
-public class Step{
+public class Step {
 
-    ArrayList<Step> stepArray =  new ArrayList<>();
+    public static ArrayList<Step> stepArray =  new ArrayList<>();
 
-    private Direction parentDirection;
+    private Route parentRoute;
 
     public Step(String distance, String duration, String htmlInstruction){
         this.mDistance = distance;
@@ -21,12 +19,12 @@ public class Step{
         stepArray.add(this);
     }
 
-    public Direction getParentDirection() {
-        return parentDirection;
+    public Route getParentRoute() {
+        return parentRoute;
     }
 
-    public void setParentDirection(Direction parentDirection) {
-        this.parentDirection = parentDirection;
+    public void setParentRoute(Route parentRoute) {
+        this.parentRoute = parentRoute;
     }
 
 

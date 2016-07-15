@@ -8,8 +8,8 @@ import java.util.ArrayList;
 /**
  * Created by Guest on 7/1/16.
  */
-public class Direction implements Parcelable {
-    public static ArrayList<Direction> routeArray = new ArrayList<Direction>();
+public class Route implements Parcelable {
+    public static ArrayList<Route> routeArray = new ArrayList<Route>();
     private ArrayList<Step> mStepArray = new ArrayList<>();
 
     private ArrayList<Friend> mFriendArray = new ArrayList<>();
@@ -18,17 +18,19 @@ public class Direction implements Parcelable {
     private String mDistance;
     private String mDuration;
     private String mHtmlInstruction;
+    private String mSummary;
 
-    public Direction(String startAddress, String endAddress, String distance, String duration, String htmlInstruction){
+
+    public Route(String startAddress, String endAddress, String summary, String distance, String duration){
         this.mStartAddress = startAddress;
         this.mEndAddress = endAddress;
+        this.mSummary = summary;
         this.mDistance = distance;
-        this.mDuration = duration;
-        this.mHtmlInstruction = htmlInstruction;
+        this.mDuration =  duration;
         routeArray.add(this);
     }
 
-    protected Direction(Parcel in) {
+    protected Route(Parcel in) {
         mStartAddress = in.readString();
         mEndAddress = in.readString();
         mDistance = in.readString();
@@ -36,15 +38,15 @@ public class Direction implements Parcelable {
         mHtmlInstruction = in.readString();
     }
 
-    public static final Creator<Direction> CREATOR = new Creator<Direction>() {
+    public static final Creator<Route> CREATOR = new Creator<Route>() {
         @Override
-        public Direction createFromParcel(Parcel in) {
-            return new Direction(in);
+        public Route createFromParcel(Parcel in) {
+            return new Route(in);
         }
 
         @Override
-        public Direction[] newArray(int size) {
-            return new Direction[size];
+        public Route[] newArray(int size) {
+            return new Route[size];
         }
     };
 
@@ -81,5 +83,21 @@ public class Direction implements Parcelable {
         parcel.writeString(mDistance);
         parcel.writeString(mDuration);
         parcel.writeString(mHtmlInstruction);
+    }
+
+    public String getSummary() {
+        return mSummary;
+    }
+
+    public void setSummary(String mSummary) {
+        this.mSummary = mSummary;
+    }
+
+    public ArrayList<Step> getStepArray() {
+        return mStepArray;
+    }
+
+    public void setStepArray(ArrayList<Step> mStepArray) {
+        this.mStepArray = mStepArray;
     }
 }

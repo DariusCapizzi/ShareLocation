@@ -1,12 +1,12 @@
 # Share Location
 
-#### An Application that uses google directions, currently week 1 android Code Review for epicodus.
+#### An Application that uses google routes, currently week 1 android Code Review for epicodus.
 
 #### By Darius Capizzi
 
 ## Description
 
-This application lets users view a list of friendly last names, as well as find a trip to whatever location, from whatever location, via the google directions api.
+This application lets users view a list of friendly last names, as well as find a trip to whatever location, from whatever location, via the google routes api.
 
 ## Setup/Installation Requirements
 You will need the following programs installed on your computer.

@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
-import com.example.darius.sharelocation.adapters.DirectionListAdapter;
+import com.example.darius.sharelocation.adapters.RouteListAdapter;
 import com.example.darius.sharelocation.models.Friend;
 import com.example.darius.sharelocation.services.GoogleDirectionsService;
 import com.example.darius.sharelocation.R;
-import com.example.darius.sharelocation.models.Direction;
+import com.example.darius.sharelocation.models.Route;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,9 @@ public class TripActivity extends AppCompatActivity {
 
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-    private DirectionListAdapter mAdapter;
+    private RouteListAdapter mAdapter;
 
-    public List<Direction> mDirections = new ArrayList<>();
+    public List<Route> mRoutes = new ArrayList<>();
     private boolean mIsMatch = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,8 @@ public class TripActivity extends AppCompatActivity {
         mTitle.setTypeface(Amatic);
 
         Bundle extras = getIntent().getExtras();
-//        Log.d(TAG, "mDirections: " + mDirections.size());
-//        Log.d(TAG, "routeArray: " + Direction.routeArray.size());
+//        Log.d(TAG, "mRoutes: " + mRoutes.size());
+//        Log.d(TAG, "routeArray: " + Route.routeArray.size());
 
 
         if (extras != null && mIsMatch) {
@@ -56,8 +57,8 @@ public class TripActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 //
-//        Log.d(TAG, "On Start mDirections: " + mDirections.size());
-//        Log.d(TAG, "On Start routeArray: " + Direction.routeArray.size());
+//        Log.d(TAG, "On Start mRoutes: " + mRoutes.size());
+//        Log.d(TAG, "On Start routeArray: " + Route.routeArray.size());
     }
 
     private void getRoute(String origin, String destination) {
@@ -69,16 +70,16 @@ public class TripActivity extends AppCompatActivity {
             }
             @Override
             public void onResponse(Call call, Response response){
-                mDirections = googleDirectionService.processResults(response);
-                Log.d(TAG, "onResponse: "+ mDirections);
+                mRoutes = googleDirectionService.processResults(response);
+                Log.d(TAG, "onResponse: "+ mRoutes);
                 TripActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ArrayList<Direction> outDirections = new ArrayList<Direction>();
-                        for (Direction direction : mDirections) {
-                            outDirections.add(direction);
+                        ArrayList<Route> outRoutes = new ArrayList<>();
+                        for (Route route : mRoutes) {
+                            outRoutes.add(route);
                         }
-                        mAdapter = new DirectionListAdapter(getApplicationContext(), outDirections);
+                        mAdapter = new RouteListAdapter(getApplicationContext(), outRoutes);
                         RecyclerView.LayoutManager layoutManager =
                                 new LinearLayoutManager(TripActivity.this);
                         mRecyclerView.setLayoutManager(layoutManager);
@@ -95,11 +96,13 @@ public class TripActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MainActivity.REQUEST_FRIENDS){
             if(resultCode == RESULT_OK){
+
                 int position = data.getIntExtra(MainActivity.EXTRA_LIST_POSITION, 0);
                 Friend oldFriend = data.getParcelableExtra(MainActivity.EXTRA_FRIEND);
-                oldFriend.addDirectionArray(Direction.routeArray.get(position));
-                Direction.routeArray.get(position).addFriend(oldFriend);
-                mDirections = Direction.routeArray;
+                oldFriend.addDirectionArray(Route.routeArray.get(position));
+                Route.routeArray.get(position).addFriend(oldFriend);
+
+                mRoutes = Route.routeArray;
                 mAdapter.notifyItemChanged(position);
             }
         }
@@ -109,8 +112,8 @@ public class TripActivity extends AppCompatActivity {
     protected void onDestroy() {
 
         super.onDestroy();
-        Direction.routeArray.clear();
-//        Log.d(TAG, "On Destroy mDirections: " + mDirections.size());
-//        Log.d(TAG, "On Destroy routeArray: " + Direction.routeArray.size());
+        Route.routeArray.clear();
+//        Log.d(TAG, "On Destroy mRoutes: " + mRoutes.size());
+//        Log.d(TAG, "On Destroy routeArray: " + Route.routeArray.size());
     }
 }

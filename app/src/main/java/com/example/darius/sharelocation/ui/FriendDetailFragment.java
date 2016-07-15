@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  * Created by Guest on 7/6/16.
  */
 public class FriendDetailFragment extends Fragment {
-    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = FriendDetailFragment.class.getSimpleName();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
