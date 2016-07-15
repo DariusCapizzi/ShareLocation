@@ -9,7 +9,8 @@ import java.util.ArrayList;
  * Created by Guest on 7/1/16.
  */
 public class Direction implements Parcelable {
-    public static ArrayList<Direction> directionArray = new ArrayList<Direction>();
+    public static ArrayList<Direction> routeArray = new ArrayList<Direction>();
+    private ArrayList<Step> mStepArray = new ArrayList<>();
 
     private ArrayList<Friend> mFriendArray = new ArrayList<>();
     private String mStartAddress;
@@ -17,13 +18,14 @@ public class Direction implements Parcelable {
     private String mDistance;
     private String mDuration;
     private String mHtmlInstruction;
+
     public Direction(String startAddress, String endAddress, String distance, String duration, String htmlInstruction){
         this.mStartAddress = startAddress;
         this.mEndAddress = endAddress;
         this.mDistance = distance;
         this.mDuration = duration;
         this.mHtmlInstruction = htmlInstruction;
-        directionArray.add(this);
+        routeArray.add(this);
     }
 
     protected Direction(Parcel in) {

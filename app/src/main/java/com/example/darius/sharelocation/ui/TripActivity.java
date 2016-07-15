@@ -5,10 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.darius.sharelocation.adapters.DirectionListAdapter;
@@ -44,7 +41,7 @@ public class TripActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 //        Log.d(TAG, "mDirections: " + mDirections.size());
-//        Log.d(TAG, "directionArray: " + Direction.directionArray.size());
+//        Log.d(TAG, "routeArray: " + Direction.routeArray.size());
 
 
         if (extras != null && mIsMatch) {
@@ -60,7 +57,7 @@ public class TripActivity extends AppCompatActivity {
         super.onStart();
 //
 //        Log.d(TAG, "On Start mDirections: " + mDirections.size());
-//        Log.d(TAG, "On Start directionArray: " + Direction.directionArray.size());
+//        Log.d(TAG, "On Start routeArray: " + Direction.routeArray.size());
     }
 
     private void getRoute(String origin, String destination) {
@@ -100,9 +97,9 @@ public class TripActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
                 int position = data.getIntExtra(MainActivity.EXTRA_LIST_POSITION, 0);
                 Friend oldFriend = data.getParcelableExtra(MainActivity.EXTRA_FRIEND);
-                oldFriend.addDirectionArray(Direction.directionArray.get(position));
-                Direction.directionArray.get(position).addFriend(oldFriend);
-                mDirections = Direction.directionArray;
+                oldFriend.addDirectionArray(Direction.routeArray.get(position));
+                Direction.routeArray.get(position).addFriend(oldFriend);
+                mDirections = Direction.routeArray;
                 mAdapter.notifyItemChanged(position);
             }
         }
@@ -112,8 +109,8 @@ public class TripActivity extends AppCompatActivity {
     protected void onDestroy() {
 
         super.onDestroy();
-        Direction.directionArray.clear();
+        Direction.routeArray.clear();
 //        Log.d(TAG, "On Destroy mDirections: " + mDirections.size());
-//        Log.d(TAG, "On Destroy directionArray: " + Direction.directionArray.size());
+//        Log.d(TAG, "On Destroy routeArray: " + Direction.routeArray.size());
     }
 }

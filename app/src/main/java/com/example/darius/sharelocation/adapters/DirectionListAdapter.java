@@ -79,6 +79,8 @@ public class DirectionListAdapter extends RecyclerView.Adapter<DirectionListAdap
 
                         mFriendView.setText(direction.getFriendArray().get(i).getFriendName());
                         mBadge.setImageBitmap(direction.getFriendArray().get(i).getThumb());
+                        mBadge.getLayoutParams().height = 140;
+                        mBadge.getLayoutParams().width =140;
 //                    } else {
 //                        mFriendView.setText("");
 //                    }

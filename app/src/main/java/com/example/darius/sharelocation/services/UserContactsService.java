@@ -7,8 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 
+import com.example.darius.sharelocation.R;
 import com.example.darius.sharelocation.ui.MainActivity;
 
 import java.io.FileDescriptor;
@@ -21,7 +24,7 @@ import java.util.HashMap;
  */
 public class UserContactsService {
 
-    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String TAG = "UserContactsService";
 
     public ArrayList<HashMap<String, String>> getContactList(Context context) {
         ArrayList<HashMap<String, String>> contactList = new ArrayList<>();
@@ -42,6 +45,12 @@ public class UserContactsService {
                 contactMap.put("NUMBER", _number);
                 contactMap.put("PHOTO", _thumb);
 
+
+
+                contactMap.put("NAME", _name);
+                contactMap.put("NUMBER", _number);
+                contactMap.put("PHOTO", _thumb);
+
                 contactList.add(contactMap);
 //                numbers.add("+" + _number);
 //                Log.d(TAG, _number + " " + _name + " " + _thumb);
@@ -56,6 +65,7 @@ public class UserContactsService {
             if(phones != null){
                 phones.close();
             }
+
         }
 
         return contactList;
@@ -63,19 +73,27 @@ public class UserContactsService {
 
     public Bitmap loadContactPhotoThumbnail(Context context, String photoData) {
         AssetFileDescriptor afd;
+        if(photoData == null){
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.aragorn);
 
-        try {
-            Uri thumbUri;
-            thumbUri = Uri.parse(photoData);
-            afd = context.getContentResolver().
-                    openAssetFileDescriptor(thumbUri, "r");
-            FileDescriptor fileDescriptor = afd.getFileDescriptor();
-            if (fileDescriptor != null) {
-                return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, null);
+        } else
+        {
+
+            try {
+                Uri thumbUri;
+                thumbUri = Uri.parse(photoData);
+                afd = context.getContentResolver().
+                        openAssetFileDescriptor(thumbUri, "r");
+                FileDescriptor fileDescriptor = afd.getFileDescriptor();
+                if (fileDescriptor != null) {
+                    return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, null);
+                }
+            } catch (FileNotFoundException e){
+                Log.d(TAG, "loadContactPhotoThumbnail: "+ e);
             }
-        } catch (FileNotFoundException e){
-            Log.d(TAG, "loadContactPhotoThumbnail: "+ e);
+            return null;
+
         }
-        return null;
+
     }
 }
