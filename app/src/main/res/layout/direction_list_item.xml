@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -50,10 +50,23 @@
             android:layout_toLeftOf="@+id/friendInfo"
             android:id="@+id/share"
             />
+        <Button
+            android:id="@+id/saveTripButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="10dp"
+            android:minWidth="10dp"
+            android:layout_below="@+id/share"
+            android:layout_toStartOf="@+id/friendInfo"
+            android:layout_toLeftOf="@+id/friendInfo"
+            android:text="save trip"
+            />
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_below="@+id/friendInfo"
             android:id="@+id/placeHolder"/>
     </RelativeLayout>
 

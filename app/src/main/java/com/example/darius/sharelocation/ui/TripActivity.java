@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.darius.sharelocation.adapters.RouteListAdapter;
@@ -14,6 +15,10 @@ import com.example.darius.sharelocation.models.Friend;
 import com.example.darius.sharelocation.services.GoogleDirectionsService;
 import com.example.darius.sharelocation.R;
 import com.example.darius.sharelocation.models.Route;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +27,18 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-public class TripActivity extends AppCompatActivity {
+public class TripActivity extends AppCompatActivity{
+
+
     public static final String TAG = TripActivity.class.getSimpleName();
     @Bind(R.id.title) TextView mTitle;
-
-
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+
     private RouteListAdapter mAdapter;
+    private String mInDeparture;
+    private String mInArrival;
 
     public List<Route> mRoutes = new ArrayList<>();
-    private boolean mIsMatch = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +52,18 @@ public class TripActivity extends AppCompatActivity {
 //        Log.d(TAG, "routeArray: " + Route.routeArray.size());
 
 
-        if (extras != null && mIsMatch) {
-            getRoute(extras.getString("departure"), extras.getString("arrival"));
-        } else {
-            getRoute("disneyland", "legoland");
+        if (extras != null) {
+            mInArrival = extras.getString("arrival");
+            mInDeparture = extras.getString("departure");
+            if (false) {
+                getRoute(mInDeparture, mInArrival);
+            }else {
+                getRoute("disneyland", "legoland");
+            }
+
         }
+
+
 
     }
 
@@ -116,4 +130,6 @@ public class TripActivity extends AppCompatActivity {
 //        Log.d(TAG, "On Destroy mRoutes: " + mRoutes.size());
 //        Log.d(TAG, "On Destroy routeArray: " + Route.routeArray.size());
     }
+
+
 }

@@ -3,39 +3,44 @@ package com.example.darius.sharelocation.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Guest on 7/1/16.
  */
+
+@IgnoreExtraProperties
 public class Route implements Parcelable {
     public static ArrayList<Route> routeArray = new ArrayList<Route>();
-    private ArrayList<Step> mStepArray = new ArrayList<>();
+    private List<Step> stepArray = new ArrayList<>();
 
-    private ArrayList<Friend> mFriendArray = new ArrayList<>();
-    private String mStartAddress;
-    private String mEndAddress;
-    private String mDistance;
-    private String mDuration;
-    private String mHtmlInstruction;
-    private String mSummary;
+    private List<Friend> friendArray = new ArrayList<>();
+    private String departure;
+    private String arrival;
+    private String distance;
+    private String duration;
+    private String summary;
 
+    public Route(){}
 
-    public Route(String startAddress, String endAddress, String summary, String distance, String duration){
-        this.mStartAddress = startAddress;
-        this.mEndAddress = endAddress;
-        this.mSummary = summary;
-        this.mDistance = distance;
-        this.mDuration =  duration;
+    public Route(String departure, String arrival, String summary, String distance, String duration){
+        this.departure = departure;
+        this.arrival = arrival;
+        this.summary = summary;
+        this.distance = distance;
+        this.duration =  duration;
         routeArray.add(this);
     }
 
     protected Route(Parcel in) {
-        mStartAddress = in.readString();
-        mEndAddress = in.readString();
-        mDistance = in.readString();
-        mDuration = in.readString();
-        mHtmlInstruction = in.readString();
+        departure = in.readString();
+        arrival = in.readString();
+        distance = in.readString();
+        duration = in.readString();
+        summary = in.readString();
     }
 
     public static final Creator<Route> CREATOR = new Creator<Route>() {
@@ -51,24 +56,21 @@ public class Route implements Parcelable {
     };
 
     public String getDistance() {
-        return mDistance;
+        return distance;
     }
     public String getDuration() {
-        return mDuration;
+        return duration;
     }
-    public String getHtmlInstruction() {
-        return mHtmlInstruction;
-    }
-    public String getStartAddress() { return mStartAddress;  }
+    public String getStartAddress() { return departure;  }
     public String getEndAddress() {
-        return mEndAddress;
+        return arrival;
     }
-    public ArrayList<Friend> getFriendArray() {
-        return mFriendArray;
+    public List<Friend> getFriendArray() {
+        return friendArray;
     }
 
     public void addFriend(Friend friend){
-        mFriendArray.add(friend);
+        friendArray.add(friend);
     }
 
     @Override
@@ -78,26 +80,28 @@ public class Route implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mStartAddress);
-        parcel.writeString(mEndAddress);
-        parcel.writeString(mDistance);
-        parcel.writeString(mDuration);
-        parcel.writeString(mHtmlInstruction);
+        parcel.writeString(departure);
+        parcel.writeString(arrival);
+        parcel.writeString(distance);
+        parcel.writeString(duration);
     }
 
     public String getSummary() {
-        return mSummary;
+        return summary;
     }
+
 
     public void setSummary(String mSummary) {
-        this.mSummary = mSummary;
+        this.summary = mSummary;
     }
 
-    public ArrayList<Step> getStepArray() {
-        return mStepArray;
+    public List<Step> getStepArray() {
+        return stepArray;
     }
 
     public void setStepArray(ArrayList<Step> mStepArray) {
-        this.mStepArray = mStepArray;
+        this.stepArray = mStepArray;
     }
+
+
 }

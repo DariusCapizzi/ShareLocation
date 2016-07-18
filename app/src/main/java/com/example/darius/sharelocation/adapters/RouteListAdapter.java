@@ -22,6 +22,9 @@ import com.example.darius.sharelocation.models.Step;
 import com.example.darius.sharelocation.ui.FriendsActivity;
 import com.example.darius.sharelocation.ui.MainActivity;
 import com.example.darius.sharelocation.ui.TripDetailFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,10 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
     private ArrayList<Route> mRoutes = new ArrayList<Route>();
     private Context mContext;
     public static final String TAG = "RouteListAdapter";
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mTripReference;
 
 
     public RouteListAdapter(Context context, ArrayList<Route> routes) {
@@ -62,6 +69,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
         @Bind(R.id.friendInfo) TextView mFriendView;
         @Bind(R.id.quickbadge) QuickContactBadge mBadge;
         @Bind(R.id.share) Button mShareButton;
+        @Bind(R.id.saveTripButton) Button mSaveTripButton;
 
         private Context mContext;
 
@@ -71,7 +79,8 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
             mContext = itemView.getContext();
             mDirectionView.setOnClickListener(this);
             mShareButton.setOnClickListener(this);
-
+            mSaveTripButton.setOnClickListener(this);
+            mTripReference = FirebaseDatabase.getInstance().getReference().child("trip").push();
         }
 
         public void bindDirection(Route route) {
@@ -118,7 +127,6 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
                 Bundle bundle = new Bundle();
 //              //if I decide I want just the steps, ill need to also implement parcable on step  ArrayList<Step> stepArray = mRoutes.toArray(new Route[mRoutes.size()])[getAdapterPosition()].getStepArray();
                 bundle.putParcelable("route",mRoutes.toArray(new Route[mRoutes.size()])[getAdapterPosition()]);
-                Log.d(TAG, "onClick: ");
                 //TODO start trip detail fragment here
                 TripDetailFragment tripDetailFragment = new TripDetailFragment();
                 FragmentManager fragmentManager = ((Activity) mContext).getFragmentManager();
@@ -126,6 +134,12 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
                 tripDetailFragment.setArguments(bundle);
                 fragmentTransaction.add(R.id.placeHolder, tripDetailFragment);
                 fragmentTransaction.commit();
+            } else if (v == mSaveTripButton){
+
+
+                mTripReference.child("departure").setValue(mRoutes.toArray(new Route[mRoutes.size()])[getAdapterPosition()].getStartAddress());
+                mTripReference.child("arrival").setValue(mRoutes.toArray(new Route[mRoutes.size()])[getAdapterPosition()].getEndAddress());
+
             }
 
         }

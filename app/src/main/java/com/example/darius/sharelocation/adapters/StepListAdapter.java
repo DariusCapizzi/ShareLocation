@@ -13,6 +13,7 @@ import com.example.darius.sharelocation.models.Route;
 import com.example.darius.sharelocation.models.Step;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,13 +22,13 @@ import butterknife.ButterKnife;
  * Created by Guest on 7/15/16.
  */
 public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepViewHolder> {
-    private ArrayList<Step> mSteps = new ArrayList<Step>();
+    private List<Step> mSteps = new ArrayList<Step>();
     private Context mContext;
 
 
 
 
-    public StepListAdapter(Context context, ArrayList<Step> Steps) {
+    public StepListAdapter(Context context, List<Step> Steps) {
         mContext = context;
         mSteps = Steps;
     }

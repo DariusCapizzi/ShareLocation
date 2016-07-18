@@ -3,6 +3,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.darius.sharelocation.R;
+import com.example.darius.sharelocation.adapters.FirebaseTripViewHolder;
+import com.example.darius.sharelocation.models.Route;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,11 +26,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String EXTRA_FRIEND = "EXTRA_FRIEND";
     public static final String EXTRA_DIRECTION = "EXTRA_DIRECTION";
     public static final String EXTRA_LIST_POSITION = "EXTRA_LIST_POSITION";
+
+    private DatabaseReference mTripReference;
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
     @Bind(R.id.title) TextView mTitle;
     @Bind(R.id.findTripButton) Button mFindTripButton;
     @Bind(R.id.seeFriendsButton) Button mSeeFriendsButton;
     @Bind(R.id.departureEditText) EditText mDepartureEditText;
     @Bind(R.id.arrivalEditText) EditText mArrivalEditText;
+    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +44,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTitle.setTypeface(Amatic);
         mSeeFriendsButton.setOnClickListener(this);
         mFindTripButton.setOnClickListener(this);
+
+        mTripReference = FirebaseDatabase.getInstance().getReference("trip");
+        setUpFirebaseAdapter();
     }
+
+    private void setUpFirebaseAdapter() {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Route, FirebaseTripViewHolder>
+                (Route.class, R.layout.direction_list_item, FirebaseTripViewHolder.class,
+                        mTripReference) {
+
+            @Override
+            protected void populateViewHolder(FirebaseTripViewHolder viewHolder,
+                                              Route model, int position) {
+                viewHolder.bindTrip(model);
+            }
+        };
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mFirebaseAdapter);
+    }
+
     @Override
     public void onClick(View v) {
         if(v == mFindTripButton) {
@@ -44,9 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("arrival", arrival);
             startActivity(intent);
         } else if(v == mSeeFriendsButton) {
-
-
-
             Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
             startActivityForResult(intent, REQUEST_FRIENDS);
         }
@@ -61,5 +89,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                Log.d(TAG, "onActivityResult: "+ data.getStringExtra(EXTRA_FRIEND)  );
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mFirebaseAdapter.cleanup();
     }
 }
