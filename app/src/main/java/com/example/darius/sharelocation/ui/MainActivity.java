@@ -2,19 +2,26 @@ package com.example.darius.sharelocation.ui;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.darius.sharelocation.Constants;
 import com.example.darius.sharelocation.R;
 import com.example.darius.sharelocation.adapters.FirebaseTripViewHolder;
 import com.example.darius.sharelocation.models.Route;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.departureEditText) EditText mDepartureEditText;
     @Bind(R.id.arrivalEditText) EditText mArrivalEditText;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private String mUId;
+    private DatabaseReference mUserReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,17 +58,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFindTripButton.setOnClickListener(this);
 
         mTripReference = FirebaseDatabase.getInstance().getReference("trip");
-        setUpFirebaseAdapter();
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+
+                    String name = user.getDisplayName();
+                    mUId = user.getUid();
+                    mUserReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_USERS)
+                            .child(mUId);
+
+
+                    setUpFirebaseAdapter();
+
+                } else {
+                    //put login/ fragment there
+                }
+            }
+        };
     }
 
     private void setUpFirebaseAdapter() {
+        mTripReference = mUserReference.child("trip");
+
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Route, FirebaseTripViewHolder>
                 (Route.class, R.layout.direction_list_item, FirebaseTripViewHolder.class,
                         mTripReference) {
-
             @Override
             protected void populateViewHolder(FirebaseTripViewHolder viewHolder,
                                               Route model, int position) {
+
+
                 viewHolder.bindTrip(model);
             }
         };
@@ -92,8 +129,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            logout();
+            return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        mFirebaseAdapter.cleanup();
+        if (mFirebaseAdapter != null){
+            mFirebaseAdapter.cleanup();
+
+        }
     }
 }

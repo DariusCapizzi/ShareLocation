@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Guest on 7/1/16.
  */
 
-@IgnoreExtraProperties
+
 public class Route implements Parcelable {
     public static ArrayList<Route> routeArray = new ArrayList<Route>();
     private List<Step> stepArray = new ArrayList<>();
@@ -61,8 +61,8 @@ public class Route implements Parcelable {
     public String getDuration() {
         return duration;
     }
-    public String getStartAddress() { return departure;  }
-    public String getEndAddress() {
+    public String getDeparture() { return departure;  }
+    public String getArrival() {
         return arrival;
     }
     public List<Friend> getFriendArray() {

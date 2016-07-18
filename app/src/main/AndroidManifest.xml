@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.darius.sharelocation">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
-
-
-
-
 
     <application
         android:allowBackup="true"
@@ -16,27 +13,32 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity"></activity>
+        <activity android:name=".ui.TripActivity" />
+        <!-- <service -->
+        <!-- android:name=".services.GoogleDirectionsService" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" /> -->
+        <activity android:name=".ui.FriendsActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.GET_CONTENT" /> -->
+            <!-- <data android:mimeType="image/jpg" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- &lt;!&ndash; The OPENABLE category declares that the returned file is accessible -->
+            <!-- from a content provider that supports OpenableColumns -->
+            <!-- and ContentResolver.openFileDescriptor() &ndash;&gt; -->
+            <!-- <category android:name="android.intent.category.OPENABLE" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.TripActivity" />
-        <!--<service-->
-            <!--android:name=".services.GoogleDirectionsService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true" />-->
-        <activity android:name=".ui.FriendsActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.GET_CONTENT" />-->
-                <!--<data android:mimeType="image/jpg" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--&lt;!&ndash; The OPENABLE category declares that the returned file is accessible-->
-                     <!--from a content provider that supports OpenableColumns-->
-                     <!--and ContentResolver.openFileDescriptor() &ndash;&gt;-->
-                <!--<category android:name="android.intent.category.OPENABLE" />-->
-            <!--</intent-filter>-->
-        </activity>
+        <activity android:name=".ui.CreateAccountActivity"></activity>
     </application>
+
 </manifest>

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,11 @@ import android.widget.TextView;
 
 import com.example.darius.sharelocation.R;
 import com.example.darius.sharelocation.models.Route;
-import com.example.darius.sharelocation.models.Step;
 import com.example.darius.sharelocation.ui.FriendsActivity;
 import com.example.darius.sharelocation.ui.MainActivity;
 import com.example.darius.sharelocation.ui.TripDetailFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,12 +37,13 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mTripReference;
+    private DatabaseReference mUserReference;
 
 
     public RouteListAdapter(Context context, ArrayList<Route> routes) {
         mContext = context;
         mRoutes = routes;
+        mAuth = FirebaseAuth.getInstance();
     }
 
 
@@ -76,19 +76,22 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
         public RouteViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            FirebaseUser user = mAuth.getCurrentUser();
             mContext = itemView.getContext();
             mDirectionView.setOnClickListener(this);
             mShareButton.setOnClickListener(this);
             mSaveTripButton.setOnClickListener(this);
-            mTripReference = FirebaseDatabase.getInstance().getReference().child("trip").push();
+            mUserReference = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
         }
 
         public void bindDirection(Route route) {
 
+
+
             mDirectionView.setText(route.getDistance() + "les,  " + route.getDuration() + ",  "  + Html.fromHtml("<br>") +"via "+route.getSummary()+ " in  " + route.getStepArray().size() + " steps" );
 
             // TODO implement this on TripActivity header
-//            mDirectionView.setText("FROM: "+ Html.fromHtml("<br>")+route.getStartAddress() + Html.fromHtml("<br>") + "TO:  " + Html.fromHtml("<br>")+ route.getEndAddress());
+//            mDirectionView.setText("FROM: "+ Html.fromHtml("<br>")+route.getDeparture() + Html.fromHtml("<br>") + "TO:  " + Html.fromHtml("<br>")+ route.getArrival());
             //TODO put this in step adapter
 //            mDirectionView.setText(route.getDistance() + ",  " + route.getDuration() + ",  "  + Html.fromHtml("<br>") + Html.fromHtml(route.getHtmlInstruction()));
 
@@ -135,10 +138,10 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.Rout
                 fragmentTransaction.add(R.id.placeHolder, tripDetailFragment);
                 fragmentTransaction.commit();
             } else if (v == mSaveTripButton){
+                DatabaseReference mTripReference = mUserReference.child("trip").push();
 
-
-                mTripReference.child("departure").setValue(mRoutes.toArray(new Route[mRoutes.size()])[getAdapterPosition()].getStartAddress());
-                mTripReference.child("arrival").setValue(mRoutes.toArray(new Route[mRoutes.size()])[getAdapterPosition()].getEndAddress());
+                mTripReference.child("departure").setValue(mRoutes.toArray(new Route[mRoutes.size()])[getAdapterPosition()].getDeparture());
+                mTripReference.child("arrival").setValue(mRoutes.toArray(new Route[mRoutes.size()])[getAdapterPosition()].getArrival());
 
             }
 

@@ -71,7 +71,7 @@ public class FriendsActivity extends AppCompatActivity {
         if (intent.getParcelableExtra(MainActivity.EXTRA_DIRECTION) != null){
 
             inRoute = intent.getParcelableExtra(MainActivity.EXTRA_DIRECTION);
-            mTitle.setText(Html.fromHtml(inRoute.getEndAddress()));
+            mTitle.setText(Html.fromHtml(inRoute.getArrival()));
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && this.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {

@@ -10,4 +10,6 @@ public class Constants {
     public static final String DESTINATIONP = "destination";
     public static final String KEY = BuildConfig.GOOGLE_DIRECTIONS_KEY;
     public static final String KEYP = "key";
+    public static final String FIREBASE_CHILD_USERS = "users";
+
 }
