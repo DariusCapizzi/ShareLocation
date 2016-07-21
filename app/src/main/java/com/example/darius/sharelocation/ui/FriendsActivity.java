@@ -28,7 +28,6 @@ public class FriendsActivity extends AppCompatActivity {
     private Route inRoute;
 
     public static final String TAG = FriendsActivity.class.getSimpleName();
-    private String[] names = new String[] {  "Abbott", "Acevedo", "Acosta", "Adams", "Adkins", "Aguilar", "Aguirre", "Albert", "Alexander", "Alford", "Allen", "Allison", "Alston", "Alvarado", "Alvarez", "Anderson", "Andrews", "Anthony", "Armstrong", "Arnold", "Ashley", "Atkins", "Atkinson", "Austin", "Avery", "Avila", "Ayala", "Ayers", "Bailey", "Baird", "Baker", "Baldwin", "Ball", "Ballard", "Banks", "Barber", "Barker", "Barlow", "Barnes", "Barnett", "Barr", "Barrera", "Barrett", "Barron", "Barry", "Bartlett", "Barton", "Bass", "Bates", "Battle", "Bauer", "Baxter", "Beach", "Bean", "Beard", "Beasley", "Beck", "Becker", "Bell", "Bender", "Benjamin", "Bennett", "Benson", "Bentley", "Benton", "Berg", "Berger", "Bernard", "Berry", "Best", "Bird", "Bishop", "Black", "Blackburn", "Blackwell", "Blair", "Blake", "Blanchard", "Blankenship", "Blevins", "Bolton", "Bond", "Bonner", "Booker", "Boone", "Booth", "Bowen", "Bowers", "Bowman", "Boyd", "Boyer", "Boyle", "Bradford", "Bradley", "Bradshaw", "Brady", "Branch", "Bray", "Brennan", };
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
 
@@ -38,7 +37,6 @@ public class FriendsActivity extends AppCompatActivity {
     private void makeContact(){
         UserContactsService userContactsService = new UserContactsService();
 //        Log.d(TAG, "makeContact: "+ userContactsService.getContactList(this).size());
-        ArrayList<Bitmap> thumbs = new ArrayList<>();
 
 
         for(int i = 0; i<userContactsService.getContactList(this).size(); i++){
@@ -51,8 +49,6 @@ public class FriendsActivity extends AppCompatActivity {
 
 
         }
-
-//        mBadge.setImageBitmap(thumbs.get(0));
     }
 
     @Override

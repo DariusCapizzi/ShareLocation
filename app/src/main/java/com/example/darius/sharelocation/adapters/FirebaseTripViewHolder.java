@@ -14,10 +14,8 @@ import butterknife.ButterKnife;
 /**
  * Created by Guest on 7/17/16.
  */
-public class FirebaseTripViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseTripViewHolder  extends RecyclerView.ViewHolder{
 
-    private static final int MAX_WIDTH = 200;
-    private static final int MAX_HEIGHT = 200;
 
     View mView;
     Context mContext;
@@ -28,7 +26,7 @@ public class FirebaseTripViewHolder  extends RecyclerView.ViewHolder implements 
         ButterKnife.bind(this, itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
+
 
     }
 
@@ -42,10 +40,6 @@ public class FirebaseTripViewHolder  extends RecyclerView.ViewHolder implements 
         mDirectionView.setText(route.getDeparture() + "  to  "+ route.getArrival());
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
 
 
 }

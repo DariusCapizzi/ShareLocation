@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSeeFriendsButton.setOnClickListener(this);
         mFindTripButton.setOnClickListener(this);
 
-        mTripReference = FirebaseDatabase.getInstance().getReference("trip");
+//        mTripReference = FirebaseDatabase.getInstance().getReference("trip");
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mUserReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_USERS)
                             .child(mUId);
 
+                    mTripReference = mUserReference.child("trip");
 
                     setUpFirebaseAdapter();
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setUpFirebaseAdapter() {
-        mTripReference = mUserReference.child("trip");
+
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Route, FirebaseTripViewHolder>
                 (Route.class, R.layout.direction_list_item, FirebaseTripViewHolder.class,
@@ -92,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected void populateViewHolder(FirebaseTripViewHolder viewHolder,
                                               Route model, int position) {
-
-
                 viewHolder.bindTrip(model);
             }
         };
