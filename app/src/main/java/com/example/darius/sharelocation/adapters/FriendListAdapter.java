@@ -17,6 +17,7 @@ import com.example.darius.sharelocation.R;
 import com.example.darius.sharelocation.models.Friend;
 import com.example.darius.sharelocation.ui.FriendsActivity;
 import com.example.darius.sharelocation.ui.MainActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -68,8 +69,21 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Fr
         }
 
         public void bindFriend(Friend friend) {
-            mFriendView.setText(friend.getFriendName() + "  " + friend.getNumber());
-            mBadge.setImageBitmap(friend.getThumb());
+            if (friend.getFriendName().equals(friend.getNumber())){
+                mFriendView.setText("no name  " + friend.getNumber());
+            } else {
+                mFriendView.setText(friend.getFriendName() + "  " + friend.getNumber());
+
+            }
+            if (friend.getThumbUri() == null){
+                Log.d(TAG, "bindFriend: "+ friend.getThumbUri());
+
+                Picasso.with(mContext).load(R.drawable.aragorn).into(mBadge);
+            } else {
+                Picasso.with(mContext).load(friend.getThumbUri()).into(mBadge);
+
+            }
+
         }
 
         @Override

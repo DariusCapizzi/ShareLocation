@@ -1,6 +1,7 @@
 package com.example.darius.sharelocation.ui;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.darius.sharelocation.adapters.RouteListAdapter;
@@ -27,18 +29,24 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-public class TripActivity extends AppCompatActivity{
+
+
+public class TripActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     public static final String TAG = TripActivity.class.getSimpleName();
     @Bind(R.id.title) TextView mTitle;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.sendToGmaps) Button mSendToGmaps;
 
     private RouteListAdapter mAdapter;
     private String mInDeparture;
     private String mInArrival;
 
     public List<Route> mRoutes = new ArrayList<>();
+    private String mStartCoordinates;
+    private String mEndCoordinates;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +72,7 @@ public class TripActivity extends AppCompatActivity{
         }
 
 
-
+        mSendToGmaps.setOnClickListener(this);
     }
 
     @Override
@@ -99,6 +107,11 @@ public class TripActivity extends AppCompatActivity{
                         mRecyclerView.setLayoutManager(layoutManager);
                         mRecyclerView.setAdapter(mAdapter);
                         mRecyclerView.setHasFixedSize(true);
+
+                        mTitle.setText("Routes you can Take: ");
+                        mSendToGmaps.setVisibility(View.VISIBLE);
+                        mStartCoordinates = mRoutes.get(0).getStartCoordinates();
+                        mEndCoordinates = mRoutes.get(0).getEndCoordinates();
                     }
                 });
             }
@@ -110,6 +123,8 @@ public class TripActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MainActivity.REQUEST_FRIENDS){
             if(resultCode == RESULT_OK){
+
+
 
                 int position = data.getIntExtra(MainActivity.EXTRA_LIST_POSITION, 0);
                 Friend oldFriend = data.getParcelableExtra(MainActivity.EXTRA_FRIEND);
@@ -132,4 +147,13 @@ public class TripActivity extends AppCompatActivity{
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if(view == mSendToGmaps){
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse("http://maps.google.com/maps?saddr="+mStartCoordinates+"&daddr="+mEndCoordinates));
+            intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+            startActivity(intent);
+        }
+    }
 }

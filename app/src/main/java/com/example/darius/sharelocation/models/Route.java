@@ -15,6 +15,8 @@ import java.util.List;
 
 public class Route implements Parcelable {
     public static ArrayList<Route> routeArray = new ArrayList<Route>();
+
+
     private List<Step> stepArray = new ArrayList<>();
 
     private List<Friend> friendArray = new ArrayList<>();
@@ -23,15 +25,19 @@ public class Route implements Parcelable {
     private String distance;
     private String duration;
     private String summary;
+    private String startCoordinates;
+    private String endCoordinates;
 
     public Route(){}
 
-    public Route(String departure, String arrival, String summary, String distance, String duration){
+    public Route(String departure, String arrival, String summary, String distance, String duration, String startCoordinates, String endCoordinates){
         this.departure = departure;
         this.arrival = arrival;
         this.summary = summary;
         this.distance = distance;
         this.duration =  duration;
+        this.startCoordinates = startCoordinates;
+        this.endCoordinates = endCoordinates;
         routeArray.add(this);
     }
 
@@ -104,4 +110,19 @@ public class Route implements Parcelable {
     }
 
 
+    public String getStartCoordinates() {
+        return startCoordinates;
+    }
+
+    public void setStartCoordinates(String startCoordinates) {
+        this.startCoordinates = startCoordinates;
+    }
+
+    public String getEndCoordinates() {
+        return endCoordinates;
+    }
+
+    public void setEndCoordinates(String endCoordinates) {
+        this.endCoordinates = endCoordinates;
+    }
 }

@@ -28,7 +28,7 @@ public class GoogleDirectionsService{
                 .addQueryParameter(Constants.DESTINATIONP, destination)
                 .addQueryParameter(Constants.KEYP, Constants.KEY);
         String url = urlBuilder.build().toString();
-        Log.d(TAG, "findTrip: "+ url);
+//        Log.d(TAG, "findTrip: "+ url);
         Request request= new Request.Builder()
                 .url(url)
                 .build();
@@ -49,13 +49,17 @@ public class GoogleDirectionsService{
                     String startAddress = routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("start_address");
                     String endAddress = routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getString("end_address");
 
+                    String startCoordinates = routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("start_location").getString("lat") + ","+ routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("start_location").getString("lng");
+                    String endCoordinates = routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("end_location").getString("lat") + ","+ routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("end_location").getString("lng");
+
+
                     String summary = routesJSON.getJSONObject(i).getString("summary");
 
                     String distance = routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getString("text");
                     String duration = routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONObject("duration").getString("text");
 
     //                Log.d(TAG, "processResults:"+ initialJSON.getJSONArray("routes").length());
-                    Route route = new Route(startAddress, endAddress, summary, distance, duration);
+                    Route route = new Route(startAddress, endAddress, summary, distance, duration, startCoordinates, endCoordinates);
 
                     JSONArray stepsJSON = routesJSON.getJSONObject(i).getJSONArray("legs").getJSONObject(0).getJSONArray("steps");
                     for (int j = 0; j < stepsJSON.length(); j++) {
@@ -70,10 +74,6 @@ public class GoogleDirectionsService{
 
                     routes.add(route);
                 }
-//                TODO make fragment for Route containing step list, put in step list adapter: where Route = Step
-
-
-
             }
         } catch (IOException e) {
             e.printStackTrace();

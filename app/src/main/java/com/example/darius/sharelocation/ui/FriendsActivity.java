@@ -16,6 +16,7 @@ import com.example.darius.sharelocation.adapters.FriendListAdapter;
 import com.example.darius.sharelocation.models.Route;
 import com.example.darius.sharelocation.models.Friend;
 import com.example.darius.sharelocation.services.UserContactsService;
+import com.firebase.security.token.TokenGenerator;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class FriendsActivity extends AppCompatActivity {
         for(int i = 0; i<userContactsService.getContactList(this).size(); i++){
 
             new Friend(
-                    userContactsService.loadContactPhotoThumbnail(this, userContactsService.getContactList(this).get(i).get("PHOTO")),
+                    userContactsService.getContactList(this).get(i).get("PHOTO"),
                     userContactsService.getContactList(this).get(i).get("NAME"),
                     userContactsService.getContactList(this).get(i).get("NUMBER")
                     );

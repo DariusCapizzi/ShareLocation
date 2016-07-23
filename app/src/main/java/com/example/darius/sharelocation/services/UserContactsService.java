@@ -42,7 +42,6 @@ public class UserContactsService {
                 HashMap<String , String> contactMap= new HashMap<String, String>();
 
 
-
                 contactMap.put("NAME", _name);
                 contactMap.put("NUMBER", _number);
                 contactMap.put("PHOTO", _thumb);

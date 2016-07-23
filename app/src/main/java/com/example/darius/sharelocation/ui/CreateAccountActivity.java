@@ -16,8 +16,7 @@ import android.widget.Toast;
 
 import com.example.darius.sharelocation.Constants;
 import com.example.darius.sharelocation.R;
-import com.example.darius.sharelocation.models.User;
-import com.example.darius.sharelocation.ui.LoginActivity;
+import com.example.darius.sharelocation.models.Friend;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,9 +25,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -198,8 +194,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void addUser(FirebaseUser firebaseUser) {
-        List<String> playlistIds = new ArrayList<>();
-        User user = new User(firebaseUser.getDisplayName(), firebaseUser.getEmail(), playlistIds);
+
+        Friend user = new Friend(firebaseUser.getDisplayName(), firebaseUser.getEmail());
         mDatabaseUsers.child(firebaseUser.getUid()).setValue(user);
     }
 }

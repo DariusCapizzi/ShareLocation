@@ -3,9 +3,11 @@ package com.example.darius.sharelocation.adapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.darius.sharelocation.R;
@@ -60,6 +62,11 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepVi
         }
 
         public void bindDirection(Step step) {
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mStepView.getLayoutParams();
+            float d = mContext.getResources().getDisplayMetrics().density;
+            int margin = (int) (40 *d);
+            lp.setMarginStart(margin);
+            mStepView.setLayoutParams(lp);
             mStepView.setText(step.getDistance() + ",  " + step.getDuration() + ",  "  + Html.fromHtml("<br>") + Html.fromHtml(step.getHtmlInstruction()));
         }
     }

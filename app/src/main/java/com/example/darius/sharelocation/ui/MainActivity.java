@@ -1,4 +1,5 @@
 package com.example.darius.sharelocation.ui;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -6,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFindTripButton.setOnClickListener(this);
 
 //        mTripReference = FirebaseDatabase.getInstance().getReference("trip");
+//        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//        String imei = tm.getDeviceId();
+//        Log.d(TAG, "onCreate: "+ imei);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mUserReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_USERS)
                             .child(mUId);
 
-                    mTripReference = mUserReference.child("trip");
+                    mTripReference = mUserReference.child("trips");
 
                     setUpFirebaseAdapter();
 

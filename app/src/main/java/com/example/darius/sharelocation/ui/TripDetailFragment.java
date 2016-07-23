@@ -42,7 +42,7 @@ public class TripDetailFragment  extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
 
-        Log.d(TAG, "onCreateView: made it to fragment" + mRoute.getStepArray().size());
+//        Log.d(TAG, "onCreateView: made it to fragment" + mRoute.getStepArray().size());
         return view;
 //        return super.onCreateView(inflater, container, savedInstanceState);
     }
